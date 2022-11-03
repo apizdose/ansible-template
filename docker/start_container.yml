@@ -1,0 +1,14 @@
+- hosts: docker
+  become: yes
+  
+  tasks:
+    - name: Create a data container
+      community.docker.docker_container:
+        name: nginx
+        image: nginx
+        state: started
+        restart_policy: always
+        ports:
+     # Publish container port 80 as host port 8080
+          - "8080:80"
+  

@@ -1,0 +1,33 @@
+- hosts: web
+  become: yes
+  
+  vars:
+    variable: 'From Ansible!'
+
+  tasks:
+  - name: "apt-get update"
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+
+  - name: "install nginx"
+    apt:
+      name: ['nginx']
+      state: latest
+    notify:
+      - start nginx 
+
+  - name: 'Copy index'
+    template:
+      src: index.j2
+      dest: /var/www/html/index.html
+
+  handlers:
+  - name: 'start nginx'
+    service:
+      name: nginx
+      enabled: yes
+      state: started
+
+
+

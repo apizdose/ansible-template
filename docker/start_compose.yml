@@ -1,0 +1,16 @@
+- hosts: docker
+  become: yes
+  
+  tasks:
+  - name: Clone a github repository
+    git:
+      repo: https://github.com/repo/app.git
+      dest: /app/
+      clone: yes
+      update: yes
+    
+  - name: Run a script
+    shell: "cd /app && ./setup.sh"
+
+  - name: deploy Docker Compose stack
+    shell: "cd /app && docker-compose up -d"
